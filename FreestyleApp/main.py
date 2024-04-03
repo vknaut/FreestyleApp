@@ -9,6 +9,8 @@ class FreestyleApp:
         self.words = self.load_words()
         self.rhymes = self.load_rhymes()
         self.current_word_index = 0
+        self.prev_word_index = 0
+        self.seen_words = [] # USE THIS TO STORE THE CALLSTACK 
         self.pygame_init()
         self.add_rhyme_button = pygame.Rect(50, 400, 200, 40)
         self.edit_rhyme_button = pygame.Rect(50, 450, 200, 40)
@@ -24,8 +26,17 @@ class FreestyleApp:
 
 
     def next_word(self):
+        self.prev_word_index = self.current_word_index
         self.current_word_index = random.randint(0, len(self.words) - 1)
-    
+
+    # TODO: Add logic to save the previously watched words
+    # with callstack
+    def prev_word(self):
+        self.current_word_index = self.prev_word_index
+
+    def set_timer_interval(self, interval):
+        self.timer_interval = interval
+
     def load_words(self):
         with open('./words/CollectedWords.txt', 'r',encoding='utf-8') as file:
             return [line.strip() for line in file.readlines()]
@@ -39,8 +50,13 @@ class FreestyleApp:
                     rhymes[word] = [line.strip() for line in file.readlines()]
         return rhymes
 
-    
-    def display_word_and_rhymes(self):
+    # def display_countdown(self, remaining_time):
+    #     countdown_text = self.button_font.render(f'Next word in: {remaining_time}s', True, (255, 0, 0))
+    #     countdown_rect = countdown_text.get_rect(center=(400, 590))  # Position the countdown at the bottom
+    #     self.screen.blit(countdown_text, countdown_rect)
+    #     pygame.display.flip() 
+
+    def display_word_and_rhymes(self, remaining_time):
         self.screen.fill((255, 255, 255)) 
         if self.words:
             # center
@@ -88,21 +104,30 @@ class FreestyleApp:
         btn_rect = btn_text.get_rect(center=self.ask_for_rhyme_button.center)
         self.screen.blit(btn_text, btn_rect)
 
+        if remaining_time is not None:
+            countdown_text = self.font.render(f'Next word in: {remaining_time}s', True, (255, 0, 0))
+            countdown_rect = countdown_text.get_rect(center=(400, 550))  # Adjust position as needed
+            self.screen.blit(countdown_text, countdown_rect)
+
         pygame.display.flip()
 
     def run(self):
         timed_mode = False
         paused = False
         timer_event = pygame.USEREVENT + 1
-        timer_interval = 5000
+        self.timer_interval = 5000
+        start_time = None  # Store the start time here
 
         running = True
         while running:
+            current_time = pygame.time.get_ticks()  # Get the current time
+            remaining_time = None
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                
+                # Keypress events
                 elif event.type == pygame.KEYDOWN:
-		            # Keypress events
                     if event.key == pygame.K_SPACE:
                         if timed_mode:
                             paused = not paused
@@ -112,18 +137,22 @@ class FreestyleApp:
                             pygame.time.set_timer(timer_event, 0)
                         else:
                             print("Timed mode.")
-                            pygame.time.set_timer(timer_event, timer_interval)    
+                            start_time = pygame.time.get_ticks()  # Restart the timer
+                            pygame.time.set_timer(timer_event, self.timer_interval)    
                     elif event.key == pygame.K_m:
                         timed_mode = not timed_mode
                         if timed_mode:
                             print("Timed mode.")
-                            pygame.time.set_timer(timer_event, timer_interval) 
+                            start_time = pygame.time.get_ticks()  # Start the timer
+                            pygame.time.set_timer(timer_event, self.timer_interval) 
                             paused = False  
                         else:
                             print("Timer deactivated.")
                             pygame.time.set_timer(timer_event, 0)
-                    elif event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    elif event.key == pygame.K_LEFT: 
                         self.next_word()
+                    elif event.key == pygame.K_RIGHT:
+                        self.prev_word()
 
 		        # click events
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -137,8 +166,12 @@ class FreestyleApp:
                         self.next_word()
                 elif event.type == timer_event:
                     self.next_word()
+                    start_time = pygame.time.get_ticks()
+            if timed_mode and not paused and start_time is not None:
+                remaining_time = max(0, ((start_time + self.timer_interval) - current_time) // 1000)
 
-            self.display_word_and_rhymes()
+
+            self.display_word_and_rhymes(remaining_time)
             # pygame.time.wait(100)
 
         pygame.quit()
@@ -181,6 +214,8 @@ class FreestyleApp:
         with open(f'./rhymes/{word}.txt', 'w', encoding='utf-8') as file:
             for rhyme in self.rhymes[word]:
                 file.write(f'{rhyme}\n')
+
+
 
 if __name__ == "__main__":
     app = FreestyleApp()
