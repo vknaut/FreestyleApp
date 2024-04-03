@@ -1,5 +1,5 @@
 
-### Freestyle Helper App
+# Freestyle Helper App
 
 Welcome to the Freestyle Helper App's GitHub repository! This innovative application, designed using Python, leverages the Pygame library for rendering visuals and Tkinter for dialog-based user interaction. Its primary purpose is to aid freestyle artists in their practice sessions by providing random words to rhyme with, and enabling the addition, edition, and deletion of rhymes for each word.
 
@@ -23,7 +23,7 @@ Welcome to the Freestyle Helper App's GitHub repository! This innovative applica
 2. **Clone the Repository**:
    - Use Git to clone this repository to your local machine:
      ```
-     git clone <repository-url>
+     git clone https://github.com/vknaut/FreestyleApp.git
      ```
    
 3. **Run the Application**:
@@ -57,5 +57,3 @@ If you encounter any issues or have questions about the application, please file
 ---
 
 Happy Freestyling! 🎤✨
-
-(Note: Replace `<repository-url>` with the actual URL of this GitHub repository.)
