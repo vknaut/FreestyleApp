@@ -15,7 +15,8 @@ class FreestyleApp:
         self.add_rhyme_button = pygame.Rect(50, 400, 200, 40)
         self.edit_rhyme_button = pygame.Rect(50, 450, 200, 40)
         self.delete_rhyme_button = pygame.Rect(50, 500, 200, 40)
-        self.ask_for_rhyme_button = pygame.Rect(640,525,100,40)
+        self.ask_for_rhyme_button = pygame.Rect(640,500,100,40)
+        # ADD INPUT FOR INTERVAL CHANGE in 'timed'
     
     def pygame_init(self):
         pygame.init()
@@ -136,9 +137,9 @@ class FreestyleApp:
                             print("paused.")
                             pygame.time.set_timer(timer_event, 0)
                         else:
-                            print("Timed mode.")
-                            start_time = pygame.time.get_ticks()  # Restart the timer
-                            pygame.time.set_timer(timer_event, self.timer_interval)    
+                            print("Pausing only works in 'Timed' mode.\nChange Mode with Keyboard key [M].")
+                        #     start_time = pygame.time.get_ticks()  # Restart the timer
+                        #     pygame.time.set_timer(timer_event, self.timer_interval)    
                     elif event.key == pygame.K_m:
                         timed_mode = not timed_mode
                         if timed_mode:
@@ -150,9 +151,9 @@ class FreestyleApp:
                             print("Timer deactivated.")
                             pygame.time.set_timer(timer_event, 0)
                     elif event.key == pygame.K_LEFT: 
-                        self.next_word()
-                    elif event.key == pygame.K_RIGHT:
                         self.prev_word()
+                    elif event.key == pygame.K_RIGHT:
+                        self.next_word()
 
 		        # click events
                 elif event.type == pygame.MOUSEBUTTONDOWN:
