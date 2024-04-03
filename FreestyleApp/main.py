@@ -164,7 +164,7 @@ class FreestyleApp:
                 self.rhymes[current_word].append(new_rhyme)
             else:
                 self.rhymes[current_word] = [new_rhyme]
-            with open(f'./rhymes/{current_word}.txt', 'a') as file:
+            with open(f'./rhymes/{current_word}.txt', 'a', encoding='utf-8') as file:
                 file.write(f'{new_rhyme}\n')
 
     def delete_rhyme(self):
@@ -178,7 +178,7 @@ class FreestyleApp:
                 messagebox.showinfo("Information", "Keine Reime zum Löschen vorhanden.")
 
     def update_rhyme_file(self, word):
-        with open(f'./rhymes/{word}.txt', 'w') as file:
+        with open(f'./rhymes/{word}.txt', 'w', encoding='utf-8') as file:
             for rhyme in self.rhymes[word]:
                 file.write(f'{rhyme}\n')
 
