@@ -267,7 +267,6 @@ class FreestyleApp:
             current_word = self.words[self.current_word_id]
             print(f"Randomly jumped to word '{current_word}' with index:  {self.current_word_id}")
 
-
     ## DRAW METHOD #################################################################
     def display_word_and_rhymes(self, remaining_time):
         self.screen.fill(colorDict['DARKER_GREY'])
