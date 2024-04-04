@@ -38,7 +38,7 @@ class FreestyleApp:
         self.change_timer_button = Button(25, 400, 150, 40, "Change timer",  SAND, YELLOW, self.change_interval, BLACK)
 
         # Center buttons
-        self.get_rand_word_btn =  Button(340,400,120,40, "Random WORD", LIGHTER_ORANGE,PEACH, self.get_random_word_id, BLACK)
+        self.get_rand_word_btn =  Button(340,400,120,40, "Random WORD", SAND,PEACH, self.get_random_word_id, BLACK)
         
         # Right aligned buttons at x~666
         self.add_word_button = Button(666,480,120,30, "Add word", SAND, YELLOW, self.add_word, BLACK)
@@ -93,7 +93,7 @@ class FreestyleApp:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
     def get_random_word_id(self):
-        print(random.choice(list(self.words.keys())))
+        # print(random.choice(list(self.words.keys())))
         self.current_word_id= random.choice(list(self.words.keys()))
     
     def add_word(self):
@@ -212,7 +212,16 @@ class FreestyleApp:
         else:
             messagebox.showerror("Fehler", "Kein Wort ausgewählt oder keine Reime verfügbar.")
 
-
+    def cycle_to_next_word(self):
+            self.current_word_id += 1
+            current_word = self.words[self.current_word_index]
+            print(f"Cycled to next word ({current_word}) with index:  {self.current_word_id}")
+        
+    def cycle_to_prev_word(self):
+        self.current_word_id -= 1
+        current_word = self.words[self.current_word_id]
+        print(f"Cycled to previous word ({current_word}) with index: {self.current_word_id}")
+        
     ## DRAW METHOD #################################################################
     def display_word_and_rhymes(self, remaining_time):
         self.screen.fill(DARKER_GREY)
@@ -318,11 +327,11 @@ class FreestyleApp:
                             print("Timer deactivated.")
                             pygame.time.set_timer(timer_event, 0)
 
-                    # elif event.key == pygame.K_LEFT: 
-                    #     self.cycle_to_prev_word()
+                    elif event.key == pygame.K_LEFT: 
+                        self.cycle_to_prev_word()
 
-                    # elif event.key == pygame.K_RIGHT:
-                    #     self.cycle_to_next_word()
+                    elif event.key == pygame.K_RIGHT:
+                        self.cycle_to_next_word()
                     
                     elif event.key == pygame.K_RETURN:
                         self.get_random_word_id()
