@@ -13,7 +13,7 @@ class FreestyleApp:
         # self.words = self.load_words()
         # self.rhymes = self.load_rhymes()
         self.load_data_from_json('./json/worte_und_reime.json')
-        self.current_word_id = 1
+        self.current_word_id = int()
         # self.current_word_index = 0
         # self.prev_word_index = 0
         # self.seen_words = [] # TODO: CREATE A LOGIC AND USE THIS TO STORE THE seen_words CALLSTACK     
@@ -22,7 +22,7 @@ class FreestyleApp:
         self.pygame_init()
 
         # instantiate labels and buttons
-        self.current_word_label = Label("", self.big_font, BLACK, (325, 100))
+        self.current_word_label = Label("", self.big_font, BLACK, (305, 100))
         self.timer_label = Label("", self.text_font, BLACK, (50, 380))
         self.controls_info_label = Label("", self.ctrls_txt_font, BLACK, (105,100),1)
         
@@ -214,20 +214,20 @@ class FreestyleApp:
 
     def cycle_to_next_word(self):
             self.current_word_id += 1
-            current_word = self.words[self.current_word_index]
+            current_word = self.words[self.current_word_id]
             print(f"Cycled to next word ({current_word}) with index:  {self.current_word_id}")
         
     def cycle_to_prev_word(self):
         self.current_word_id -= 1
         current_word = self.words[self.current_word_id]
         print(f"Cycled to previous word ({current_word}) with index: {self.current_word_id}")
-        
+
     ## DRAW METHOD #################################################################
     def display_word_and_rhymes(self, remaining_time):
         self.screen.fill(DARKER_GREY)
         # current_word_text = ""
         if self.words and self.showing_controls:
-            self.controls_info_label.update_text("Keyboard Controls:\n             Press 'ENTER' for new Random Word\n             Press 'M' to toggle timed mode.\n             Press 'SPACE' to pause in timed mode.\n             Press 'C' to toggle Keyboard controls on/off \n       <----'LEFT_ARROWKEY' previous word | next word 'RIGHT_ARROWKEY'---->")
+            self.controls_info_label.update_text("Keyboard Controls:\n             Press 'ENTER' for new Random Word\n             Press 'M' to toggle timed mode.\n             Press 'SPACE' to pause in timed mode.\n             Press 'C' to toggle Keyboard controls on/off \n       ←'LEFT_ARROWKEY' previous word | next word 'RIGHT_ARROWKEY'→")
         elif self.words and self.current_word_id is not None:
             # Hier nutzen wir die ID, um den Worttext zu holen.
             current_word_text = self.words[self.current_word_id]
