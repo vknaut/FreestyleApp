@@ -10,14 +10,10 @@ from utils.Label import Label
 
 class FreestyleApp:
     def __init__(self):
-        # self.words = self.load_words()
-        # self.rhymes = self.load_rhymes()
         self.load_data_from_json('FreestyleApp/json/worte_und_reime.json')
         self.current_word_id = 1
-        # self.current_word_index = 0
         # self.prev_word_index = 0
         # self.seen_words = [] # TODO: CREATE A LOGIC AND USE THIS TO STORE THE seen_words CALLSTACK     
-        # # 
         self.showing_controls = False
         self.pygame_init()
 
