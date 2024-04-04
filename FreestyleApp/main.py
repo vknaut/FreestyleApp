@@ -1,4 +1,3 @@
-import os
 import pygame
 import random  
 import json
@@ -19,22 +18,37 @@ class FreestyleApp:
 
         # instantiate labels and buttons
         self.current_word_label = Label("", self.big_font, colorDict['BLACK'], (305, 50))
-        self.timer_label = Label("", self.text_font, colorDict['BLACK'], (50, 380))
-        self.controls_info_label = Label("", self.ctrls_txt_font, colorDict['BLACK'], (105,100),1)
+        self.timer_label = Label("", self.text_font, colorDict['PEACH'], (25, 340))
+        self.controls_info_label = Label("", self.ctrls_txt_font, (39,5,0), (100,80),1)
         
         #frames
         self.bottom_section_frame = pygame.Rect(0, 333, self.screen.get_width(), 300) 
-        self.rhyme_section_frame = pygame.Rect(0, 470, 220, 220)      # Rhyme related button frame (left)
+        self.rhyme_section_frame = pygame.Rect(0, 470, self.screen.get_width(), 220)      # Rhyme related button frame (left)
 
 
         # Left aligned buttons
-        self.add_rhyme_button = Button(25, 480, 200, 30, "Add rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.add_rhyme, colorDict['WHITE'],"FreestyleApp/assets/img/nightblue-btn.png","FreestyleApp/assets/img/blue-btn.png","FreestyleApp/assets/img/lightblue-btn.png")
-        self.edit_rhyme_button = Button(25, 515, 200, 30, "Edit rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.edit_rhyme, colorDict['WHITE'],"FreestyleApp/assets/img/nightblue-btn.png","FreestyleApp/assets/img/blue-btn.png","FreestyleApp/assets/img/lightblue-btn.png")
-        self.delete_rhyme_button = Button(25, 550, 200, 30, "Delete rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.delete_rhyme, colorDict['WHITE'],"FreestyleApp/assets/img/nightblue-btn.png","FreestyleApp/assets/img/blue-btn.png","FreestyleApp/assets/img/lightblue-btn.png")
-        self.change_timer_button = Button(25, 400, 150, 40, "Change timer",  colorDict['SAND'], colorDict['YELLOW'], self.change_interval, colorDict['PEACH'],"FreestyleApp/assets/img/violet-btn.png","FreestyleApp/assets/img/lightviolet-btn.png","FreestyleApp/assets/img/darkorange-btn.png")
+        self.add_rhyme_button = Button(25, 480, 200, 30, "Reim hinzufügen", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.add_rhyme, colorDict['WHITE'],
+                                       "FreestyleApp/assets/img/nightblue-btn.png",
+                                       "FreestyleApp/assets/img/blue-btn.png",
+                                       "FreestyleApp/assets/img/lightblue-btn.png")
+        self.edit_rhyme_button = Button(25, 515, 200, 30, "Reim ändern", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.edit_rhyme, colorDict['WHITE'],
+                                        "FreestyleApp/assets/img/nightblue-btn.png",
+                                        "FreestyleApp/assets/img/blue-btn.png",
+                                        "FreestyleApp/assets/img/lightblue-btn.png")
+        
+        self.delete_rhyme_button = Button(25, 550, 200, 30, "Reim löschen", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.delete_rhyme, colorDict['WHITE'],
+                                          "FreestyleApp/assets/img/nightblue-btn.png",
+                                          "FreestyleApp/assets/img/blue-btn.png",
+                                          "FreestyleApp/assets/img/lightblue-btn.png")
+        
+        self.change_timer_button = Button(25, 400, 120, 30, "Intervall setzen",  colorDict['SAND'], colorDict['YELLOW'], self.change_interval, colorDict['WHITE'],
+                                          "FreestyleApp/assets/img/violet-btn.png",
+                                          "FreestyleApp/assets/img/lightviolet-btn.png",
+                                          "FreestyleApp/assets/img/darkorange-btn.png",
+                                          font_size=16)
 
         # Center buttons
-        self.get_rand_word_btn =  Button(340,400,120,40, "Random WORD", 
+        self.get_rand_word_btn =  Button(340,500,180,40, "Zufälliges Wort", 
                                         colorDict['SAND'],colorDict['PEACH'], 
                                         self.get_random_word_id, colorDict['WHITE'],#font-color
                                         "FreestyleApp/assets/img/violet-btn.png",
@@ -64,12 +78,12 @@ class FreestyleApp:
                                          "FreestyleApp/assets/img/lightblue-btn.png")
 
         # Top right corner
-        self.show_controls_button = Button(666, 10, 120 , 30, "Show controls", 
+        self.show_controls_button = Button(666, 290, 150 , 30, "Steuerung anzeigen", 
                                            colorDict['SAND'], colorDict['YELLOW'], 
-                                           self.show_controls, colorDict['PEACH'], 
-                                           "FreestyleApp/assets/img/violet-btn.png",
-                                           "FreestyleApp/assets/img/lightviolet-btn.png",
-                                           "FreestyleApp/assets/img/darkorange-btn.png")
+                                           self.show_controls, colorDict['BLACK'], 
+                                           "FreestyleApp/assets/img/yellow-btn.png",
+                                           "FreestyleApp/assets/img/orange-btn.png",
+                                           "FreestyleApp/assets/img/darkorange-btn.png",font_size=16)
     
     def pygame_init(self):
         pygame.init()
@@ -77,7 +91,7 @@ class FreestyleApp:
         pygame.display.set_caption("Freestyle Helper")
         self.big_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Bold.ttf", 46)  
         self.button_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 22)
-        self.text_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 24)
+        self.text_font = pygame.font.Font(None, 24)
         self.ctrls_txt_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 24)
 
     ####### CLASS METHODS #####
@@ -274,7 +288,6 @@ class FreestyleApp:
         if self.words and self.showing_controls:
             self.controls_info_label.update_text("Keyboard Controls:\n             Press 'ENTER' for new Random Word\n             Press 'M' to toggle timed mode.\n             Press 'SPACE' to pause in timed mode.\n             Press 'C' to toggle Keyboard controls on/off \n       ←'LEFT_ARROWKEY' previous word | next word 'RIGHT_ARROWKEY'→")
         elif self.words and self.current_word_id is not None:
-            # Hier nutzen wir die ID, um den Worttext zu holen.
             current_word_text = self.words[self.current_word_id]
             self.current_word_label.update_text(current_word_text)
             self.controls_info_label.update_text("")
@@ -304,7 +317,7 @@ class FreestyleApp:
                 current_x += rhyme_width + rhyme_spacing_x
 
         # Rahmen und Steuerelemente wie zuvor zeichnen
-        pygame.draw.rect(self.screen, colorDict['DARK_GREEN'], self.bottom_section_frame)
+        pygame.draw.rect(self.screen, (64,73,55), self.bottom_section_frame)
         pygame.draw.rect(self.screen, colorDict['BLACK'], self.rhyme_section_frame)
 
         self.add_rhyme_button.draw(self.screen)
@@ -317,8 +330,14 @@ class FreestyleApp:
         self.delete_word_button.draw(self.screen)
         self.show_controls_button.draw(self.screen)
 
-        if remaining_time is not None:
+        if remaining_time is not None and self.timed_mode:
             self.timer_label.update_text(f'Next word in: {remaining_time}s')
+            self.timer_label.draw(self.screen)
+        elif self.timed_mode:
+            self.timer_label.update_text(f'Paused.(interval:{int(self.timer_interval/1000)}s)')
+            self.timer_label.draw(self.screen)
+        else:
+            self.timer_label.update_text(f'Press M to toggle timer on (interval:{int(self.timer_interval/1000)}s).')
             self.timer_label.draw(self.screen)
 
         if self.showing_controls:
@@ -332,7 +351,7 @@ class FreestyleApp:
 
     # MAIN LOOP #########################################################################
     def run(self):
-        timed_mode = False
+        self.timed_mode = False
         paused = False
         timer_event = pygame.USEREVENT + 1
         self.timer_interval = 5000
@@ -349,7 +368,7 @@ class FreestyleApp:
                 # Keypress events
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
-                        if timed_mode:
+                        if self.timed_mode:
                             paused = not paused
                             if paused:
                                 print("paused.")
@@ -362,8 +381,8 @@ class FreestyleApp:
                             print("Pausing only works in 'Timed' mode.\nChange Mode with Keyboard key [M].")
                                
                     elif event.key == pygame.K_m:
-                        timed_mode = not timed_mode
-                        if timed_mode:
+                        self.timed_mode = not self.timed_mode
+                        if self.timed_mode:
                             print("Timed mode.")
                             start_time = pygame.time.get_ticks()  
                             pygame.time.set_timer(timer_event, self.timer_interval) 
@@ -398,7 +417,7 @@ class FreestyleApp:
                     self.delete_word_button.handle_event(event)
                     self.show_controls_button.handle_event(event)
                     
-            if timed_mode and not paused and start_time is not None:
+            if self.timed_mode and not paused and start_time is not None:
                 remaining_time = max(0, (((start_time + self.timer_interval) - current_time) // 1000)+1)
 
 

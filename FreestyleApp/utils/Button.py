@@ -1,14 +1,30 @@
 import pygame
 
 class Button:
-    def __init__(self, x, y, width, height, text, color, hover_color, callback, text_color=(0, 0, 0), image_path=None, hover_image_path=None, click_image_path=None, onclick_color=None):
+    def __init__(self, 
+                 x, 
+                 y, 
+                 width, 
+                 height, 
+                 text, 
+                 color, 
+                 hover_color, 
+                 callback, 
+                 text_color=(0, 0, 0), 
+                 image_path=None, 
+                 hover_image_path=None, 
+                 click_image_path=None, 
+                 onclick_color=None,
+                 font_size=None
+                 ):
+        
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
         self.color = color
         self.hover_color = hover_color
         self.onclick_color = onclick_color  
         self.callback = callback
-        self.font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 22)
+        self.font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", font_size) if font_size else pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 22)
         self.text_color = text_color
         
         # Load images
