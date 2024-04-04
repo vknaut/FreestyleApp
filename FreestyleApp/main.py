@@ -5,14 +5,14 @@ import json
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 from utils.Button import Button
-from utils.utils import PINK,RED,YELLOW,DARK_GREEN,DARK_GREEN2,MARINE,LIGHT_BLUE,SAND,GREY,WHITE,BLACK,ORANGE,LIGHTER_ORANGE,PEACH,colorDict,DARKER_GREY
+from utils.utils import colorDict
 from utils.Label import Label
 
 class FreestyleApp:
     def __init__(self):
         # self.words = self.load_words()
         # self.rhymes = self.load_rhymes()
-        self.load_data_from_json('./json/worte_und_reime.json')
+        self.load_data_from_json('FreestyleApp/json/worte_und_reime.json')
         self.current_word_id = 1
         # self.current_word_index = 0
         # self.prev_word_index = 0
@@ -22,9 +22,9 @@ class FreestyleApp:
         self.pygame_init()
 
         # instantiate labels and buttons
-        self.current_word_label = Label("", self.big_font, BLACK, (305, 100))
-        self.timer_label = Label("", self.text_font, BLACK, (50, 380))
-        self.controls_info_label = Label("", self.ctrls_txt_font, BLACK, (105,100),1)
+        self.current_word_label = Label("", self.big_font, colorDict['BLACK'], (305, 100))
+        self.timer_label = Label("", self.text_font, colorDict['BLACK'], (50, 380))
+        self.controls_info_label = Label("", self.ctrls_txt_font, colorDict['BLACK'], (105,100),1)
         
         #frames
         self.bottom_section_frame = pygame.Rect(0, 333, self.screen.get_width(), 300) 
@@ -32,29 +32,29 @@ class FreestyleApp:
 
 
         # Left aligned buttons
-        self.add_rhyme_button = Button(25, 480, 200, 30, "Add rhyme", MARINE, LIGHT_BLUE, self.add_rhyme, WHITE)
-        self.edit_rhyme_button = Button(25, 515, 200, 30, "Edit rhyme", MARINE, LIGHT_BLUE, self.edit_rhyme, WHITE)
-        self.delete_rhyme_button = Button(25, 550, 200, 30, "Delete rhyme", MARINE, LIGHT_BLUE, self.delete_rhyme, WHITE)
-        self.change_timer_button = Button(25, 400, 150, 40, "Change timer",  SAND, YELLOW, self.change_interval, BLACK)
+        self.add_rhyme_button = Button(25, 480, 200, 30, "Add rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.add_rhyme, colorDict['WHITE'])
+        self.edit_rhyme_button = Button(25, 515, 200, 30, "Edit rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.edit_rhyme, colorDict['WHITE'])
+        self.delete_rhyme_button = Button(25, 550, 200, 30, "Delete rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.delete_rhyme, colorDict['WHITE'])
+        self.change_timer_button = Button(25, 400, 150, 40, "Change timer",  colorDict['SAND'], colorDict['YELLOW'], self.change_interval, colorDict['BLACK'])
 
         # Center buttons
-        self.get_rand_word_btn =  Button(340,400,120,40, "Random WORD", SAND,PEACH, self.get_random_word_id, BLACK)
+        self.get_rand_word_btn =  Button(340,400,120,40, "Random WORD", colorDict['SAND'],colorDict['PEACH'], self.get_random_word_id, colorDict['BLACK'])
         
         # Right aligned buttons at x~666
-        self.add_word_button = Button(666,480,120,30, "Add word", SAND, YELLOW, self.add_word, BLACK)
-        self.edit_word_button = Button(666,515,120,30, "Edit word", SAND, YELLOW, self.edit_word, BLACK)
-        self.delete_word_button = Button(666,550,120,30, "Delete word", SAND, YELLOW, self.delete_word, BLACK)
+        self.add_word_button = Button(666,480,120,30, "Add word", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.add_word, colorDict['WHITE'])
+        self.edit_word_button = Button(666,515,120,30, "Edit word", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.edit_word, colorDict['WHITE'])
+        self.delete_word_button = Button(666,550,120,30, "Delete word",colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.delete_word, colorDict['WHITE'])
 
-        self.show_controls_button = Button(666, 10, 120 , 30, "Show controls", SAND, YELLOW, self.show_controls)
+        self.show_controls_button = Button(666, 10, 120 , 30, "Show controls", colorDict['SAND'], colorDict['YELLOW'], self.show_controls)
     
     def pygame_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("Freestyle Helper")
-        self.big_font = pygame.font.Font("./assets/Antonio-Bold.ttf", 46)  
-        self.button_font = pygame.font.Font("./assets/Antonio-Regular.ttf", 22)
+        self.big_font = pygame.font.Font("FreestyleApp/assets/Antonio-Bold.ttf", 46)  
+        self.button_font = pygame.font.Font("FreestyleApp/assets/Antonio-Regular.ttf", 22)
         self.text_font = pygame.font.Font(None, 24)
-        self.ctrls_txt_font = pygame.font.Font("./assets/Antonio-Regular.ttf", 24)
+        self.ctrls_txt_font = pygame.font.Font("FreestyleApp/assets/Antonio-Regular.ttf", 24)
 
     ####### CLASS METHODS #####
     def show_controls(self):
@@ -77,13 +77,13 @@ class FreestyleApp:
 
 
     ## JSON METHODS ############################################################
-    def load_data_from_json(self, file_path='./json/worte_und_reime.json'):
+    def load_data_from_json(self, file_path='FreestyleApp/json/worte_und_reime.json'):
             with open(file_path, 'r', encoding='utf-8') as file:
                 data = json.load(file)
             self.words = {item['id']: item['word'] for item in data['words']}
             self.rhymes = data['rhymes']
         
-    def save_data_to_json(self, file_path='./json/worte_und_reime.json'):
+    def save_data_to_json(self, file_path='FreestyleApp/json/worte_und_reime.json'):
         data = {
             "words": [{"id": word_id, "word": word} for word_id, word in self.words.items()],
             "rhymes": self.rhymes
@@ -227,7 +227,7 @@ class FreestyleApp:
 
     ## DRAW METHOD #################################################################
     def display_word_and_rhymes(self, remaining_time):
-        self.screen.fill(DARKER_GREY)
+        self.screen.fill(colorDict['DARKER_GREY'])
         # current_word_text = ""
         if self.words and self.showing_controls:
             self.controls_info_label.update_text("Keyboard Controls:\n             Press 'ENTER' for new Random Word\n             Press 'M' to toggle timed mode.\n             Press 'SPACE' to pause in timed mode.\n             Press 'C' to toggle Keyboard controls on/off \n       ←'LEFT_ARROWKEY' previous word | next word 'RIGHT_ARROWKEY'→")
@@ -262,8 +262,8 @@ class FreestyleApp:
                 current_x += rhyme_width + rhyme_spacing_x
 
         # Rahmen und Steuerelemente wie zuvor zeichnen
-        pygame.draw.rect(self.screen, DARK_GREEN, self.bottom_section_frame)
-        pygame.draw.rect(self.screen, BLACK, self.rhyme_section_frame)
+        pygame.draw.rect(self.screen, colorDict['DARK_GREEN'], self.bottom_section_frame)
+        pygame.draw.rect(self.screen, colorDict['BLACK'], self.rhyme_section_frame)
 
         self.add_rhyme_button.draw(self.screen)
         self.edit_rhyme_button.draw(self.screen)

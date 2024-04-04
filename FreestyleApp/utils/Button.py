@@ -7,7 +7,7 @@ class Button:
         self.color = color
         self.hover_color = hover_color
         self.callback = callback
-        self.font = pygame.font.Font("./assets/Antonio-Regular.ttf", 22)
+        self.font = pygame.font.Font("FreestyleApp/assets/Antonio-Regular.ttf", 22)
         self.text_color = text_color
 
     def draw(self, screen):
