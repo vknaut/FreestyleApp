@@ -78,12 +78,12 @@ class FreestyleApp:
                                          "FreestyleApp/assets/img/lightblue-btn.png")
 
         # Top right corner
-        self.show_controls_button = Button(666, 290, 150 , 30, "Steuerung anzeigen", 
+        self.show_controls_button = Button(660, 290, 150 , 30, "Tastenbelegung", 
                                            colorDict['SAND'], colorDict['YELLOW'], 
                                            self.show_controls, colorDict['BLACK'], 
-                                           "FreestyleApp/assets/img/yellow-btn.png",
                                            "FreestyleApp/assets/img/orange-btn.png",
-                                           "FreestyleApp/assets/img/darkorange-btn.png",font_size=16)
+                                           "FreestyleApp/assets/img/yellow-btn.png",
+                                           "FreestyleApp/assets/img/darkorange-btn.png",font_size=17)
     
     def pygame_init(self):
         pygame.init()
