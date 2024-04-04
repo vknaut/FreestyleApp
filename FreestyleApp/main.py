@@ -5,7 +5,7 @@ import json
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 from utils.Button import Button
-from utils.utils import PINK,RED,YELLOW,DARK_GREEN,DARK_GREEN2,MARINE,LIGHT_BLUE,SAND,GREY,WHITE,BLACK,ORANGE,LIGHTER_ORANGE,PEACH, colorDict, DARKER_GREY
+from utils.utils import PINK,RED,YELLOW,DARK_GREEN,DARK_GREEN2,MARINE,LIGHT_BLUE,SAND,GREY,WHITE,BLACK,ORANGE,LIGHTER_ORANGE,PEACH,colorDict,DARKER_GREY
 from utils.Label import Label
 
 class FreestyleApp:
@@ -13,7 +13,7 @@ class FreestyleApp:
         # self.words = self.load_words()
         # self.rhymes = self.load_rhymes()
         self.load_data_from_json('./json/worte_und_reime.json')
-        self.current_word_id = int()
+        self.current_word_id = 1
         # self.current_word_index = 0
         # self.prev_word_index = 0
         # self.seen_words = [] # TODO: CREATE A LOGIC AND USE THIS TO STORE THE seen_words CALLSTACK     
@@ -76,7 +76,6 @@ class FreestyleApp:
                 messagebox.showerror("Error", "Invalid input. Please enter a positive integer.")
 
 
-
     ## JSON METHODS ############################################################
     def load_data_from_json(self, file_path='./json/worte_und_reime.json'):
             with open(file_path, 'r', encoding='utf-8') as file:
@@ -107,6 +106,7 @@ class FreestyleApp:
     def delete_word(self):
         word_id = self.current_word_id
         if word_id in self.words:
+            self.current_word_id = 1            
             del self.words[word_id]  
             if str(word_id) in self.rhymes:
                 del self.rhymes[str(word_id)]  
