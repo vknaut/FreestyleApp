@@ -83,7 +83,7 @@ class FreestyleApp:
                                            self.show_controls, colorDict['BLACK'], 
                                            "FreestyleApp/assets/img/orange-btn.png",
                                            "FreestyleApp/assets/img/yellow-btn.png",
-                                           "FreestyleApp/assets/img/darkorange-btn.png",font_size=17)
+                                           "FreestyleApp/assets/img/darkorange-btn.png",font_size=18)
     
     def pygame_init(self):
         pygame.init()
