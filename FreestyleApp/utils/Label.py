@@ -5,8 +5,8 @@ class Label:
         self.color = color
         self.pos = pos
         self.line_spacing = line_spacing
-        self.lines = text.split('\n')  # Split the text into lines
-
+        self.lines = text.split('\n')
+        
     def update_text(self, new_text):
         self.text = new_text
         self.lines = new_text.split('\n')
@@ -17,3 +17,8 @@ class Label:
             text_surface = self.font.render(line, True, self.color)
             screen.blit(text_surface, (x, y))
             y += self.font.get_linesize() + self.line_spacing
+
+
+if __name__ == '__main__':
+    print("This is file should not be directly executed. Please use 'FreestyleApp/main.py' instead.")
+    input("Press ENTER to exit.")

@@ -18,7 +18,7 @@ class FreestyleApp:
         self.pygame_init()
 
         # instantiate labels and buttons
-        self.current_word_label = Label("", self.big_font, colorDict['BLACK'], (305, 100))
+        self.current_word_label = Label("", self.big_font, colorDict['BLACK'], (305, 50))
         self.timer_label = Label("", self.text_font, colorDict['BLACK'], (50, 380))
         self.controls_info_label = Label("", self.ctrls_txt_font, colorDict['BLACK'], (105,100),1)
         
@@ -28,29 +28,57 @@ class FreestyleApp:
 
 
         # Left aligned buttons
-        self.add_rhyme_button = Button(25, 480, 200, 30, "Add rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.add_rhyme, colorDict['WHITE'])
-        self.edit_rhyme_button = Button(25, 515, 200, 30, "Edit rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.edit_rhyme, colorDict['WHITE'])
-        self.delete_rhyme_button = Button(25, 550, 200, 30, "Delete rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.delete_rhyme, colorDict['WHITE'])
-        self.change_timer_button = Button(25, 400, 150, 40, "Change timer",  colorDict['SAND'], colorDict['YELLOW'], self.change_interval, colorDict['BLACK'])
+        self.add_rhyme_button = Button(25, 480, 200, 30, "Add rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.add_rhyme, colorDict['WHITE'],"FreestyleApp/assets/img/nightblue-btn.png","FreestyleApp/assets/img/blue-btn.png","FreestyleApp/assets/img/lightblue-btn.png")
+        self.edit_rhyme_button = Button(25, 515, 200, 30, "Edit rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.edit_rhyme, colorDict['WHITE'],"FreestyleApp/assets/img/nightblue-btn.png","FreestyleApp/assets/img/blue-btn.png","FreestyleApp/assets/img/lightblue-btn.png")
+        self.delete_rhyme_button = Button(25, 550, 200, 30, "Delete rhyme", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.delete_rhyme, colorDict['WHITE'],"FreestyleApp/assets/img/nightblue-btn.png","FreestyleApp/assets/img/blue-btn.png","FreestyleApp/assets/img/lightblue-btn.png")
+        self.change_timer_button = Button(25, 400, 150, 40, "Change timer",  colorDict['SAND'], colorDict['YELLOW'], self.change_interval, colorDict['PEACH'],"FreestyleApp/assets/img/violet-btn.png","FreestyleApp/assets/img/lightviolet-btn.png","FreestyleApp/assets/img/darkorange-btn.png")
 
         # Center buttons
-        self.get_rand_word_btn =  Button(340,400,120,40, "Random WORD", colorDict['SAND'],colorDict['PEACH'], self.get_random_word_id, colorDict['BLACK'])
+        self.get_rand_word_btn =  Button(340,400,120,40, "Random WORD", 
+                                        colorDict['SAND'],colorDict['PEACH'], 
+                                        self.get_random_word_id, colorDict['WHITE'],#font-color
+                                        "FreestyleApp/assets/img/violet-btn.png",
+                                        "FreestyleApp/assets/img/lightviolet-btn.png",
+                                        "FreestyleApp/assets/img/darkorange-btn.png")
         
         # Right aligned buttons at x~666
-        self.add_word_button = Button(666,480,120,30, "Add word", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.add_word, colorDict['WHITE'])
-        self.edit_word_button = Button(666,515,120,30, "Edit word", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.edit_word, colorDict['WHITE'])
-        self.delete_word_button = Button(666,550,120,30, "Delete word",colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.delete_word, colorDict['WHITE'])
+        self.add_word_button = Button(666,480,120,30, "Add word", 
+                                      colorDict['MARINE'], colorDict['LIGHT_BLUE'], 
+                                      self.add_word, colorDict['WHITE'],
+                                      "FreestyleApp/assets/img/nightblue-btn.png",
+                                      "FreestyleApp/assets/img/blue-btn.png",
+                                      "FreestyleApp/assets/img/lightblue-btn.png")
+        
+        self.edit_word_button = Button(666,515,120,30, "Edit word", 
+                                       colorDict['MARINE'], colorDict['LIGHT_BLUE'], 
+                                       self.edit_word, colorDict['WHITE'],
+                                       "FreestyleApp/assets/img/nightblue-btn.png",
+                                       "FreestyleApp/assets/img/blue-btn.png",
+                                       "FreestyleApp/assets/img/lightblue-btn.png")
+        
+        self.delete_word_button = Button(666,550,120,30, "Delete word",
+                                         colorDict['MARINE'], colorDict['LIGHT_BLUE'], 
+                                         self.delete_word, colorDict['WHITE'],
+                                         "FreestyleApp/assets/img/nightblue-btn.png",
+                                         "FreestyleApp/assets/img/blue-btn.png",
+                                         "FreestyleApp/assets/img/lightblue-btn.png")
 
-        self.show_controls_button = Button(666, 10, 120 , 30, "Show controls", colorDict['SAND'], colorDict['YELLOW'], self.show_controls)
+        # Top right corner
+        self.show_controls_button = Button(666, 10, 120 , 30, "Show controls", 
+                                           colorDict['SAND'], colorDict['YELLOW'], 
+                                           self.show_controls, colorDict['PEACH'], 
+                                           "FreestyleApp/assets/img/violet-btn.png",
+                                           "FreestyleApp/assets/img/lightviolet-btn.png",
+                                           "FreestyleApp/assets/img/darkorange-btn.png")
     
     def pygame_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("Freestyle Helper")
-        self.big_font = pygame.font.Font("FreestyleApp/assets/Antonio-Bold.ttf", 46)  
-        self.button_font = pygame.font.Font("FreestyleApp/assets/Antonio-Regular.ttf", 22)
-        self.text_font = pygame.font.Font(None, 24)
-        self.ctrls_txt_font = pygame.font.Font("FreestyleApp/assets/Antonio-Regular.ttf", 24)
+        self.big_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Bold.ttf", 46)  
+        self.button_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 22)
+        self.text_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 24)
+        self.ctrls_txt_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 24)
 
     ####### CLASS METHODS #####
     def show_controls(self):
@@ -62,7 +90,7 @@ class FreestyleApp:
     def change_interval(self):
             new_interval_str = simpledialog.askstring("Change Timer Interval", "Enter new interval in seconds:")
             try:
-                new_interval = int(new_interval_str) * 1000  # Convert seconds to milliseconds
+                new_interval = int(new_interval_str) * 1000  # -> ms
                 if new_interval > 0:
                     self.timer_interval = new_interval
                     messagebox.showinfo("Timer Updated", f"Timer interval has been updated to {new_interval // 1000} seconds.")
@@ -88,11 +116,11 @@ class FreestyleApp:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
     def get_random_word_id(self):
-        # print(random.choice(list(self.words.keys())))
+        # print(random.choice(list(self.words.keys()))) # debug
         self.current_word_id= random.choice(list(self.words.keys()))
     
     def add_word(self):
-        word = simpledialog.askstring("Input the new word:")
+        word = simpledialog.askstring("Neues Wort", "Gib das Wort ein, welches du hinzufügen möchtest.")
         new_id = max(self.words.keys()) + 1  
         self.words[new_id] = word  
         self.rhymes[str(new_id)] = []  
@@ -111,7 +139,7 @@ class FreestyleApp:
     
     def edit_word(self):
         word_id = self.current_word_id
-        new_word = simpledialog.askstring("Edit",f"Editing word:{self.words[word_id]}")
+        new_word = simpledialog.askstring("Editieren",f"Editiere Wort:{self.words[word_id]}")
 
         if word_id in self.words and new_word:
             self.words[word_id] = new_word  
@@ -137,9 +165,9 @@ class FreestyleApp:
                             # Aktualisieren der Reim-IDs für das aktuelle Wort
                             self.rhymes[str(current_word_id)] = [new_rhyme_id if rid == selected_rhyme_id else rid for rid in rhyme_ids]
                             self.save_data_to_json()  # Änderungen speichern
-                            messagebox.showinfo("Erfolg", "Reim erfolgreich bearbeitet.")
-                        else:
-                            messagebox.showerror("Fehler", "Der Reimtext existiert bereits oder wurde nicht eingegeben.")
+                        else: 
+                            messagebox.showinfo("Info", "Der Reimtext existiert bereits in der WortDatenbank.\nID's werden verknüpft...")
+                            #TODO: IMPLEMENT: Aktualisieren der Reim-IDs -> Verküpfung der sich reimenden Wörter.
                     else:
                         messagebox.showerror("Fehler", "Ungültige Reim-ID.")
                 except ValueError:
@@ -155,25 +183,32 @@ class FreestyleApp:
         if current_word_id is not None:
             new_rhyme_text = simpledialog.askstring("Neuer Reim", "Geben Sie den neuen Reim ein:")
             if new_rhyme_text:
-                # Überprüfen, ob der neue Reimtext bereits existiert. Wenn nicht, fügen wir ihn als neues Wort hinzu.
+                # Überprüfen, ob der neue Reimtext bereits existiert. Wenn nicht, füge ihn als neues Wort hinzu.
                 new_rhyme_id = None
                 for id, word in self.words.items():
                     if word == new_rhyme_text:
                         new_rhyme_id = id
                         break
-                if new_rhyme_id is None:  # Der Reim existiert noch nicht, also wird er hinzugefügt.
+                if new_rhyme_id is None:  #  Reim existiert nicht -> hinzufügen
                     new_rhyme_id = max(self.words.keys()) + 1
                     self.words[new_rhyme_id] = new_rhyme_text
                 
                 # Reim zur Liste der Reime für das aktuelle Wort hinzufügen
+
                 if str(current_word_id) in self.rhymes:
                     if new_rhyme_id not in self.rhymes[str(current_word_id)]:
+                        for rid in self.rhymes[str(current_word_id)]:
+                            self.rhymes[str(rid)].append(new_rhyme_id)
+                        #TODO: LOGIK ZUM KREUZCHECKEN DER ANDEREN ID'S + HINZUFÜGEN WENN FEHLEND DAMIT AM ENDE ALLE ID'S IN JEDE RICHTUNG HIN VERKNÜPFT SIND
+
                         self.rhymes[str(current_word_id)].append(new_rhyme_id)
+
                 else:
                     self.rhymes[str(current_word_id)] = [new_rhyme_id]
                 
-                self.save_data_to_json()  # Änderungen speichern
-                messagebox.showinfo("Erfolg", "Reim erfolgreich hinzugefügt.")
+                self.save_data_to_json()  
+                # messagebox.showinfo("Erfolg", "Reim erfolgreich hinzugefügt.")
+                print("Reim erfolgreich hinzugefügt.")
             else:
                 messagebox.showerror("Fehler", "Kein Reim eingegeben.")
         else:
@@ -181,7 +216,7 @@ class FreestyleApp:
 
 
     def delete_rhyme(self):
-        current_word_id = self.current_word_id  # Nutzung der aktuell ausgewählten Wort-ID
+        current_word_id = self.current_word_id 
         if current_word_id is not None and str(current_word_id) in self.rhymes:
             rhyme_ids = self.rhymes[str(current_word_id)]
             if rhyme_ids:
@@ -212,14 +247,26 @@ class FreestyleApp:
 
     ###### TODO: Add functionality to handle the word id's in case one word is deleted.
     def cycle_to_next_word(self):
+        try:
             self.current_word_id += 1
             current_word = self.words[self.current_word_id]
             print(f"Cycled to next word ({current_word}) with index:  {self.current_word_id}")
-        
+
+        except:
+            self.get_random_word_id()
+            current_word = self.words[self.current_word_id]
+            print(f"Randomly jumped to word '{current_word}' with index:  {self.current_word_id}")
+
     def cycle_to_prev_word(self):
-        self.current_word_id -= 1
-        current_word = self.words[self.current_word_id]
-        print(f"Cycled to previous word ({current_word}) with index: {self.current_word_id}")
+        try:
+            self.current_word_id -= 1
+            current_word = self.words[self.current_word_id]
+            print(f"Cycled to previous word ({current_word}) with index: {self.current_word_id}")
+        except:
+            self.get_random_word_id()
+            current_word = self.words[self.current_word_id]
+            print(f"Randomly jumped to word '{current_word}' with index:  {self.current_word_id}")
+
 
     ## DRAW METHOD #################################################################
     def display_word_and_rhymes(self, remaining_time):
