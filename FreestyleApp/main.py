@@ -212,6 +212,9 @@ class FreestyleApp:
         else:
             messagebox.showerror("Fehler", "Kein Wort ausgewählt oder keine Reime verfügbar.")
 
+
+
+    ###### TODO: Add functionality to handle the word id's in case one word is deleted.
     def cycle_to_next_word(self):
             self.current_word_id += 1
             current_word = self.words[self.current_word_id]
