@@ -96,14 +96,16 @@ class FreestyleApp:
         print(random.choice(list(self.words.keys())))
         self.current_word_id= random.choice(list(self.words.keys()))
     
-    def add_word(self, word):
+    def add_word(self):
+        word = simpledialog.askstring("Input the new word:")
         new_id = max(self.words.keys()) + 1  
         self.words[new_id] = word  
         self.rhymes[str(new_id)] = []  
         self.save_data_to_json()  
 
 
-    def delete_word(self, word_id):
+    def delete_word(self):
+        word_id = self.current_word_id
         if word_id in self.words:
             del self.words[word_id]  
             if str(word_id) in self.rhymes:
@@ -111,8 +113,11 @@ class FreestyleApp:
             self.save_data_to_json()  
 
     
-    def edit_word(self, word_id, new_word):
-        if word_id in self.words:
+    def edit_word(self):
+        word_id = self.current_word_id
+        new_word = simpledialog.askstring("Edit",f"Editing word:{self.words[word_id]}")
+
+        if word_id in self.words and new_word:
             self.words[word_id] = new_word  
             self.save_data_to_json() 
 
