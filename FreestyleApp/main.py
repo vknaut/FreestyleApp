@@ -25,65 +25,112 @@ class FreestyleApp:
         self.bottom_section_frame = pygame.Rect(0, 333, self.screen.get_width(), 300) 
         self.rhyme_section_frame = pygame.Rect(0, 470, self.screen.get_width(), 220)      # Rhyme related button frame (left)
 
-
         # Left aligned buttons
-        self.add_rhyme_button = Button(25, 480, 200, 30, "Reim hinzufügen", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.add_rhyme, colorDict['WHITE'],
-                                       "FreestyleApp/assets/img/nightblue-btn.png",
-                                       "FreestyleApp/assets/img/blue-btn.png",
-                                       "FreestyleApp/assets/img/lightblue-btn.png")
-        self.edit_rhyme_button = Button(25, 515, 200, 30, "Reim ändern", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.edit_rhyme, colorDict['WHITE'],
+
+        ################################################################# RHYME HANDLING #################################################################
+        # ADD BUTTON
+        self.add_rhyme_button = Button( 25, 480, 200, 30,
+                                        "Reim hinzufügen", 
+                                        colorDict['MARINE'],
+                                        colorDict['LIGHT_BLUE'], 
+                                        self.add_rhyme, 
+                                        colorDict['WHITE'],
                                         "FreestyleApp/assets/img/nightblue-btn.png",
                                         "FreestyleApp/assets/img/blue-btn.png",
                                         "FreestyleApp/assets/img/lightblue-btn.png")
-        
-        self.delete_rhyme_button = Button(25, 550, 200, 30, "Reim löschen", colorDict['MARINE'], colorDict['LIGHT_BLUE'], self.delete_rhyme, colorDict['WHITE'],
+        # EDIT BUTTON
+        self.edit_rhyme_button = Button(25, 515, 200, 30, 
+                                        "Reim ändern", 
+                                        colorDict['MARINE'], 
+                                        colorDict['LIGHT_BLUE'], 
+                                        self.edit_rhyme, 
+                                        colorDict['WHITE'],
+                                        "FreestyleApp/assets/img/nightblue-btn.png",
+                                        "FreestyleApp/assets/img/blue-btn.png",
+                                        "FreestyleApp/assets/img/lightblue-btn.png")
+        # DELETE BUTTON
+        self.delete_rhyme_button = Button(25, 550, 200, 30, 
+                                          "Reim löschen", 
+                                          colorDict['MARINE'], 
+                                          colorDict['LIGHT_BLUE'], 
+                                          self.delete_rhyme, 
+                                          colorDict['WHITE'],
                                           "FreestyleApp/assets/img/nightblue-btn.png",
                                           "FreestyleApp/assets/img/blue-btn.png",
                                           "FreestyleApp/assets/img/lightblue-btn.png")
         
-        self.change_timer_button = Button(25, 400, 120, 30, "Intervall setzen",  colorDict['SAND'], colorDict['YELLOW'], self.change_interval, colorDict['WHITE'],
+
+        ###################################### TIMER RELATED  #################################
+        self.change_timer_button = Button(25, 400, 120, 30, 
+                                          "Intervall setzen",  
+                                          colorDict['SAND'], 
+                                          colorDict['YELLOW'], 
+                                          self.change_interval, 
+                                          colorDict['WHITE'],
                                           "FreestyleApp/assets/img/violet-btn.png",
                                           "FreestyleApp/assets/img/lightviolet-btn.png",
                                           "FreestyleApp/assets/img/darkorange-btn.png",
                                           font_size=16)
 
         # Center buttons
-        self.get_rand_word_btn =  Button(340,500,180,40, "Zufälliges Wort", 
-                                        colorDict['SAND'],colorDict['PEACH'], 
-                                        self.get_random_word_id, colorDict['WHITE'],#font-color
+
+
+        # GET NEW RANDOM WORD
+        self.get_rand_word_btn =  Button(340,500,180,40, 
+                                        "Zufälliges Wort", 
+                                        colorDict['SAND'],
+                                        colorDict['PEACH'], 
+                                        self.get_random_word_id, 
+                                        colorDict['WHITE'],#font-color
                                         "FreestyleApp/assets/img/violet-btn.png",
                                         "FreestyleApp/assets/img/lightviolet-btn.png",
                                         "FreestyleApp/assets/img/darkorange-btn.png")
         
         # Right aligned buttons at x~666
-        self.add_word_button = Button(666,480,120,30, "Add word", 
-                                      colorDict['MARINE'], colorDict['LIGHT_BLUE'], 
-                                      self.add_word, colorDict['WHITE'],
+        ################################################################# WORD HANDLING #################################################################
+        # ADD WORD BUTTON
+        self.add_word_button = Button(666,480,120,30, 
+                                      "Add word", 
+                                      colorDict['MARINE'], 
+                                      colorDict['LIGHT_BLUE'], 
+                                      self.add_word, 
+                                      colorDict['WHITE'],
                                       "FreestyleApp/assets/img/nightblue-btn.png",
                                       "FreestyleApp/assets/img/blue-btn.png",
                                       "FreestyleApp/assets/img/lightblue-btn.png")
-        
-        self.edit_word_button = Button(666,515,120,30, "Edit word", 
-                                       colorDict['MARINE'], colorDict['LIGHT_BLUE'], 
-                                       self.edit_word, colorDict['WHITE'],
+        # EDIT WORD BUTTON
+        self.edit_word_button = Button(666,515,120,30, 
+                                       "Edit word", 
+                                       colorDict['MARINE'], 
+                                       colorDict['LIGHT_BLUE'], 
+                                       self.edit_word, 
+                                       colorDict['WHITE'],
                                        "FreestyleApp/assets/img/nightblue-btn.png",
                                        "FreestyleApp/assets/img/blue-btn.png",
                                        "FreestyleApp/assets/img/lightblue-btn.png")
-        
-        self.delete_word_button = Button(666,550,120,30, "Delete word",
-                                         colorDict['MARINE'], colorDict['LIGHT_BLUE'], 
-                                         self.delete_word, colorDict['WHITE'],
+        # DELETE WORD BUTTON
+        self.delete_word_button = Button(666,550,120,30, 
+                                         "Delete word",
+                                         colorDict['MARINE'], 
+                                         colorDict['LIGHT_BLUE'], 
+                                         self.delete_word, 
+                                         colorDict['WHITE'],
                                          "FreestyleApp/assets/img/nightblue-btn.png",
                                          "FreestyleApp/assets/img/blue-btn.png",
                                          "FreestyleApp/assets/img/lightblue-btn.png")
 
-        # Top right corner
-        self.show_controls_button = Button(660, 290, 150 , 30, "Tastenbelegung", 
-                                           colorDict['SAND'], colorDict['YELLOW'], 
-                                           self.show_controls, colorDict['BLACK'], 
+        # 
+        # SHOW CONTROLS BUTTON
+        self.show_controls_button = Button(660,290,150,30, 
+                                           "Tastenbelegung", 
+                                           colorDict['SAND'], 
+                                           colorDict['YELLOW'], 
+                                           self.show_controls, 
+                                           colorDict['BLACK'], 
                                            "FreestyleApp/assets/img/orange-btn.png",
                                            "FreestyleApp/assets/img/yellow-btn.png",
-                                           "FreestyleApp/assets/img/darkorange-btn.png",font_size=18)
+                                           "FreestyleApp/assets/img/darkorange-btn.png",
+                                           font_size=18)
     
     def pygame_init(self):
         pygame.init()
@@ -132,7 +179,44 @@ class FreestyleApp:
     def get_random_word_id(self):
         # print(random.choice(list(self.words.keys()))) # debug
         self.current_word_id= random.choice(list(self.words.keys()))
-    
+
+    def reindex_words_and_rhymes(self):
+        new_words = {}
+        new_rhymes = {}
+        id_mapping = {}  
+
+        # Reindex der Wörter
+        new_id = 1
+        for old_id in sorted(self.words.keys(), key=int):
+            new_words[new_id] = self.words[old_id]
+            id_mapping[old_id] = new_id
+            new_id += 1
+
+        # Reindex der Reime unter Verwendung des ID-Mappings
+        for old_id, rhymes in self.rhymes.items():
+            new_rhymes[str(id_mapping[int(old_id)])] = [id_mapping[int(rid)] for rid in rhymes]
+
+        # Ersetze alte Wörter und Reime durch die neu indizierten
+        self.words = new_words
+        self.rhymes = new_rhymes
+
+        self.save_data_to_json()
+
+    def cross_check_rhyme_relations(self):
+        # Gehe durch alle Reimbeziehungen
+        for word_id, rhyme_ids in self.rhymes.items():
+            for rhyme_id in rhyme_ids:
+                # Überprüfe, ob das aktuelle Wort in der Reimliste des Reimwortes ist
+                if word_id not in self.rhymes.get(str(rhyme_id), []):
+                    # Wenn nicht, füge die gegenseitige Beziehung hinzu
+                    if str(rhyme_id) in self.rhymes:
+                        self.rhymes[str(rhyme_id)].append(int(word_id))
+                    else:
+                        self.rhymes[str(rhyme_id)] = [int(word_id)]
+
+        # Speichere die aktualisierten Daten
+        self.save_data_to_json()
+
     def add_word(self):
         word = simpledialog.askstring("Neues Wort", "Gib das Wort ein, welches du hinzufügen möchtest.")
         new_id = max(self.words.keys()) + 1  
@@ -182,6 +266,8 @@ class FreestyleApp:
                         else: 
                             messagebox.showinfo("Info", "Der Reimtext existiert bereits in der WortDatenbank.\nID's werden verknüpft...")
                             #TODO: IMPLEMENT: Aktualisieren der Reim-IDs -> Verküpfung der sich reimenden Wörter.
+                            self.cross_check_rhyme_relations()
+                            
                     else:
                         messagebox.showerror("Fehler", "Ungültige Reim-ID.")
                 except ValueError:
@@ -223,6 +309,8 @@ class FreestyleApp:
                 self.save_data_to_json()  
                 # messagebox.showinfo("Erfolg", "Reim erfolgreich hinzugefügt.")
                 print("Reim erfolgreich hinzugefügt.")
+                self.cross_check_rhyme_relations()
+
             else:
                 messagebox.showerror("Fehler", "Kein Reim eingegeben.")
         else:
