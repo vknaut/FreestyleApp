@@ -18,12 +18,13 @@ class FreestyleApp:
 
         # instantiate labels and buttons
         self.current_word_label = Label("", self.big_font, colorDict['BLACK'], (305, 50))
-        self.timer_label = Label("", self.text_font, colorDict['PEACH'], (25, 340))
+        self.timer_label = Label("", self.text_font, colorDict['PEACH'], (25, 355))
         self.controls_info_label = Label("", self.ctrls_txt_font, (39,5,0), (100,80),1)
         
-        #frames
-        self.bottom_section_frame = pygame.Rect(0, 333, self.screen.get_width(), 300) 
-        self.rhyme_section_frame = pygame.Rect(0, 470, self.screen.get_width(), 220)      # Rhyme related button frame (left)
+        # #frames
+        # self.bottom_section_frame = pygame.Rect(0, 333, self.screen.get_width(), 300) 
+        # self.rhyme_section_frame = pygame.Rect(0, 470, self.screen.get_width(), 220)      # Rhyme related button frame (left)
+        self.background_image = pygame.image.load("FreestyleApp/assets/img/background-v0.1.png")
 
         # Left aligned buttons
 
@@ -141,6 +142,7 @@ class FreestyleApp:
         self.text_font = pygame.font.Font(None, 24)
         self.ctrls_txt_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 24)
 
+
     ####### CLASS METHODS #####
     def show_controls(self):
         self.showing_controls = not self.showing_controls
@@ -202,20 +204,30 @@ class FreestyleApp:
 
         self.save_data_to_json()
 
-    def cross_check_rhyme_relations(self):
-        # Gehe durch alle Reimbeziehungen
-        for word_id, rhyme_ids in self.rhymes.items():
-            for rhyme_id in rhyme_ids:
-                # Überprüfe, ob das aktuelle Wort in der Reimliste des Reimwortes ist
-                if word_id not in self.rhymes.get(str(rhyme_id), []):
-                    # Wenn nicht, füge die gegenseitige Beziehung hinzu
-                    if str(rhyme_id) in self.rhymes:
-                        self.rhymes[str(rhyme_id)].append(int(word_id))
-                    else:
-                        self.rhymes[str(rhyme_id)] = [int(word_id)]
+    # def cross_check_rhyme_relations(self):
+    #     # Gehe durch alle Reimbeziehungen
+    #     for word_id, rhyme_ids in self.rhymes.items():
+    #         for rhyme_id in rhyme_ids:
+    #             # Überprüfe, ob das aktuelle Wort in der Reimliste des Reimwortes ist
+    #             if word_id not in self.rhymes.get(str(rhyme_id), []):
+    #                 # Wenn nicht, füge die gegenseitige Beziehung hinzu
+    #                 if str(rhyme_id) in self.rhymes:
+    #                     self.rhymes[str(rhyme_id)].append(int(word_id))
+    #                 else:
+    #                     self.rhymes[str(rhyme_id)] = [int(word_id)]
 
-        # Speichere die aktualisierten Daten
-        self.save_data_to_json()
+    #     # Speichere die aktualisierten Daten
+    #     self.save_data_to_json()
+    def cross_check_rhyme_relations(self):
+        rhymes_copy = dict(self.rhymes)  # Make a copy for safe iteration
+
+        for word_id, rhyme_ids in rhymes_copy.items():
+            for rhyme_id in rhyme_ids:
+                # Check if the current word is in its rhyme's list of rhymes, and add it if not
+                self.rhymes.setdefault(str(rhyme_id), []).append(int(word_id)) if int(word_id) not in self.rhymes.get(str(rhyme_id), []) else None
+
+        self.save_data_to_json()  # Save any updates
+
 
     def add_word(self):
         word = simpledialog.askstring("Neues Wort", "Gib das Wort ein, welches du hinzufügen möchtest.")
@@ -277,44 +289,73 @@ class FreestyleApp:
         else:
             messagebox.showerror("Fehler", "Kein Wort ausgewählt oder keine Reime verfügbar.")
 
-
     def add_rhyme(self):
-        current_word_id = self.current_word_id  # Verwendung der aktuell ausgewählten Wort-ID
+        current_word_id = self.current_word_id  # Use the currently selected word ID
         if current_word_id is not None:
             new_rhyme_text = simpledialog.askstring("Neuer Reim", "Geben Sie den neuen Reim ein:")
             if new_rhyme_text:
-                # Überprüfen, ob der neue Reimtext bereits existiert. Wenn nicht, füge ihn als neues Wort hinzu.
+                # Check if the new rhyme text already exists
                 new_rhyme_id = None
                 for id, word in self.words.items():
                     if word == new_rhyme_text:
                         new_rhyme_id = id
                         break
-                if new_rhyme_id is None:  #  Reim existiert nicht -> hinzufügen
-                    new_rhyme_id = max(self.words.keys()) + 1
+                if new_rhyme_id is None:  # If the rhyme does not exist, add it as a new word
+                    new_rhyme_id = max(self.words.keys(), default=0) + 1
                     self.words[new_rhyme_id] = new_rhyme_text
-                
-                # Reim zur Liste der Reime für das aktuelle Wort hinzufügen
+                    self.rhymes[str(new_rhyme_id)] = []  # Ensure the new word has an entry in self.rhymes
 
-                if str(current_word_id) in self.rhymes:
-                    if new_rhyme_id not in self.rhymes[str(current_word_id)]:
-                        for rid in self.rhymes[str(current_word_id)]:
-                            self.rhymes[str(rid)].append(new_rhyme_id)
-                        #TODO: LOGIK ZUM KREUZCHECKEN DER ANDEREN ID'S + HINZUFÜGEN WENN FEHLEND DAMIT AM ENDE ALLE ID'S IN JEDE RICHTUNG HIN VERKNÜPFT SIND
+                # Add the rhyme to the current word's list of rhymes, if not already present
+                self.rhymes.setdefault(str(current_word_id), []).append(new_rhyme_id)
+                if new_rhyme_id not in self.rhymes[str(current_word_id)]:
+                    self.rhymes[str(current_word_id)].append(new_rhyme_id)
 
-                        self.rhymes[str(current_word_id)].append(new_rhyme_id)
-
-                else:
-                    self.rhymes[str(current_word_id)] = [new_rhyme_id]
-                
-                self.save_data_to_json()  
-                # messagebox.showinfo("Erfolg", "Reim erfolgreich hinzugefügt.")
-                print("Reim erfolgreich hinzugefügt.")
-                self.cross_check_rhyme_relations()
-
+                self.save_data_to_json()  # Save the updates
+                self.cross_check_rhyme_relations()  # Ensure reciprocal relationships are established
             else:
                 messagebox.showerror("Fehler", "Kein Reim eingegeben.")
         else:
             messagebox.showerror("Fehler", "Kein Wort ausgewählt.")
+
+    # def add_rhyme(self):
+    #     current_word_id = self.current_word_id  # Verwendung der aktuell ausgewählten Wort-ID
+    #     if current_word_id is not None:
+    #         new_rhyme_text = simpledialog.askstring("Neuer Reim", "Geben Sie den neuen Reim ein:")
+    #         if new_rhyme_text:
+    #             # Überprüfen, ob der neue Reimtext bereits existiert. Wenn nicht, füge ihn als neues Wort hinzu.
+    #             new_rhyme_id = None
+    #             for id, word in self.words.items():
+    #                 if word == new_rhyme_text:
+    #                     new_rhyme_id = id
+    #                     break
+    #             if new_rhyme_id is None:  #  Reim existiert nicht -> hinzufügen
+    #                 new_rhyme_id = max(self.words.keys()) + 1
+    #                 self.words[new_rhyme_id] = new_rhyme_text
+                
+    #             # Reim zur Liste der Reime für das aktuelle Wort hinzufügen
+    #             if str(current_word_id) in self.rhymes:
+    #                 if new_rhyme_id not in self.rhymes[str(current_word_id)]: # wenn newrhyme nicht in reimliste existiert
+    #                     for rid in self.rhymes[str(current_word_id)]:
+    #                         if rid in self.rhymes.keys():
+    #                             self.rhymes[str(rid)].append(new_rhyme_id)
+    #                         else:
+    #                             self.rhymes[str(rid)] = [[] if len(self.rhymes[str(current_word_id)]) < 1 else rhyme for rhyme in self.rhymes[str(current_word_id)]]
+    #                     #TODO: LOGIK ZUM KREUZCHECKEN DER ANDEREN ID'S + HINZUFÜGEN WENN FEHLEND DAMIT AM ENDE ALLE ID'S IN JEDE RICHTUNG HIN VERKNÜPFT SIND
+
+    #                     self.rhymes[str(current_word_id)].append(new_rhyme_id)
+
+    #             else:
+    #                 self.rhymes[str(current_word_id)] = [new_rhyme_id]
+                
+    #             self.save_data_to_json()  
+    #             # messagebox.showinfo("Erfolg", "Reim erfolgreich hinzugefügt.")
+    #             print("Reim erfolgreich hinzugefügt.")
+    #             self.cross_check_rhyme_relations()
+
+    #         else:
+    #             messagebox.showerror("Fehler", "Kein Reim eingegeben.")
+    #     else:
+    #         messagebox.showerror("Fehler", "Kein Wort ausgewählt.")
 
 
     def delete_rhyme(self):
@@ -340,6 +381,8 @@ class FreestyleApp:
                         messagebox.showerror("Fehler", "Ungültige Reim-ID.")
                 except ValueError:
                     messagebox.showerror("Fehler", "Bitte geben Sie eine gültige Reim-ID ein.")
+                except TypeError:
+                    pass
             else:
                 messagebox.showinfo("Information", "Keine Reime zum Löschen vorhanden.")
         else:
@@ -372,6 +415,8 @@ class FreestyleApp:
     ## DRAW METHOD #################################################################
     def display_word_and_rhymes(self, remaining_time):
         self.screen.fill(colorDict['DARKER_GREY'])
+        self.screen.blit(self.background_image, (0, 0))
+
         # current_word_text = ""
         if self.words and self.showing_controls:
             self.controls_info_label.update_text("Keyboard Controls:\n             Press 'ENTER' for new Random Word\n             Press 'M' to toggle timed mode.\n             Press 'SPACE' to pause in timed mode.\n             Press 'C' to toggle Keyboard controls on/off \n       ←'LEFT_ARROWKEY' previous word | next word 'RIGHT_ARROWKEY'→")
@@ -404,9 +449,9 @@ class FreestyleApp:
                 self.screen.blit(rhyme_surface, (current_x, rhyme_y))
                 current_x += rhyme_width + rhyme_spacing_x
 
-        # Rahmen und Steuerelemente wie zuvor zeichnen
-        pygame.draw.rect(self.screen, (64,73,55), self.bottom_section_frame)
-        pygame.draw.rect(self.screen, colorDict['BLACK'], self.rhyme_section_frame)
+        # # Rahmen und Steuerelemente wie zuvor zeichnen
+        # pygame.draw.rect(self.screen, (64,73,55), self.bottom_section_frame)
+        # pygame.draw.rect(self.screen, colorDict['BLACK'], self.rhyme_section_frame)
 
         self.add_rhyme_button.draw(self.screen)
         self.edit_rhyme_button.draw(self.screen)
