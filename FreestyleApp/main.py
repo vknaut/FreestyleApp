@@ -9,7 +9,7 @@ from utils.Label import Label
 
 class FreestyleApp:
     def __init__(self):
-        self.load_data_from_json('FreestyleApp/json/worte_und_reime.json')
+        self.load_data_from_json('./json/worte_und_reime.json')
         self.current_word_id = 1
         # self.prev_word_index = 0
         # self.seen_words = [] # TODO: CREATE A LOGIC AND USE THIS TO STORE THE seen_words CALLSTACK     
@@ -24,7 +24,7 @@ class FreestyleApp:
         # #frames
         # self.bottom_section_frame = pygame.Rect(0, 333, self.screen.get_width(), 300) 
         # self.rhyme_section_frame = pygame.Rect(0, 470, self.screen.get_width(), 220)      # Rhyme related button frame (left)
-        self.background_image = pygame.image.load("FreestyleApp/assets/img/background-v0.1.png")
+        self.background_image = pygame.image.load("./assets/img/background-v0.1.png")
 
         # Left aligned buttons
 
@@ -36,9 +36,9 @@ class FreestyleApp:
                                         colorDict['LIGHT_BLUE'], 
                                         self.add_rhyme, 
                                         colorDict['WHITE'],
-                                        "FreestyleApp/assets/img/nightblue-btn.png",
-                                        "FreestyleApp/assets/img/blue-btn.png",
-                                        "FreestyleApp/assets/img/lightblue-btn.png")
+                                        "./assets/img/nightblue-btn.png",
+                                        "./assets/img/blue-btn.png",
+                                        "./assets/img/lightblue-btn.png")
         # EDIT BUTTON
         self.edit_rhyme_button = Button(25, 515, 200, 30, 
                                         "Reim ändern", 
@@ -46,9 +46,9 @@ class FreestyleApp:
                                         colorDict['LIGHT_BLUE'], 
                                         self.edit_rhyme, 
                                         colorDict['WHITE'],
-                                        "FreestyleApp/assets/img/nightblue-btn.png",
-                                        "FreestyleApp/assets/img/blue-btn.png",
-                                        "FreestyleApp/assets/img/lightblue-btn.png")
+                                        "./assets/img/nightblue-btn.png",
+                                        "./assets/img/blue-btn.png",
+                                        "./assets/img/lightblue-btn.png")
         # DELETE BUTTON
         self.delete_rhyme_button = Button(25, 550, 200, 30, 
                                           "Reim löschen", 
@@ -56,9 +56,9 @@ class FreestyleApp:
                                           colorDict['LIGHT_BLUE'], 
                                           self.delete_rhyme, 
                                           colorDict['WHITE'],
-                                          "FreestyleApp/assets/img/nightblue-btn.png",
-                                          "FreestyleApp/assets/img/blue-btn.png",
-                                          "FreestyleApp/assets/img/lightblue-btn.png")
+                                          "./assets/img/nightblue-btn.png",
+                                          "./assets/img/blue-btn.png",
+                                          "./assets/img/lightblue-btn.png")
         
 
         ###################################### TIMER RELATED  #################################
@@ -68,14 +68,12 @@ class FreestyleApp:
                                           colorDict['YELLOW'], 
                                           self.change_interval, 
                                           colorDict['WHITE'],
-                                          "FreestyleApp/assets/img/violet-btn.png",
-                                          "FreestyleApp/assets/img/lightviolet-btn.png",
-                                          "FreestyleApp/assets/img/darkorange-btn.png",
+                                          "./assets/img/violet-btn.png",
+                                          "./assets/img/lightviolet-btn.png",
+                                          "./assets/img/darkorange-btn.png",
                                           font_size=16)
 
         # Center buttons
-
-
         # GET NEW RANDOM WORD
         self.get_rand_word_btn =  Button(340,500,180,40, 
                                         "Zufälliges Wort", 
@@ -83,9 +81,9 @@ class FreestyleApp:
                                         colorDict['PEACH'], 
                                         self.get_random_word_id, 
                                         colorDict['WHITE'],#font-color
-                                        "FreestyleApp/assets/img/violet-btn.png",
-                                        "FreestyleApp/assets/img/lightviolet-btn.png",
-                                        "FreestyleApp/assets/img/darkorange-btn.png")
+                                        "./assets/img/violet-btn.png",
+                                        "./assets/img/lightviolet-btn.png",
+                                        "./assets/img/darkorange-btn.png")
         
         # Right aligned buttons at x~666
         ################################################################# WORD HANDLING #################################################################
@@ -96,9 +94,9 @@ class FreestyleApp:
                                       colorDict['LIGHT_BLUE'], 
                                       self.add_word, 
                                       colorDict['WHITE'],
-                                      "FreestyleApp/assets/img/nightblue-btn.png",
-                                      "FreestyleApp/assets/img/blue-btn.png",
-                                      "FreestyleApp/assets/img/lightblue-btn.png")
+                                      "./assets/img/nightblue-btn.png",
+                                      "./assets/img/blue-btn.png",
+                                      "./assets/img/lightblue-btn.png")
         # EDIT WORD BUTTON
         self.edit_word_button = Button(666,515,120,30, 
                                        "Edit word", 
@@ -106,9 +104,9 @@ class FreestyleApp:
                                        colorDict['LIGHT_BLUE'], 
                                        self.edit_word, 
                                        colorDict['WHITE'],
-                                       "FreestyleApp/assets/img/nightblue-btn.png",
-                                       "FreestyleApp/assets/img/blue-btn.png",
-                                       "FreestyleApp/assets/img/lightblue-btn.png")
+                                       "./assets/img/nightblue-btn.png",
+                                       "./assets/img/blue-btn.png",
+                                       "./assets/img/lightblue-btn.png")
         # DELETE WORD BUTTON
         self.delete_word_button = Button(666,550,120,30, 
                                          "Delete word",
@@ -116,9 +114,9 @@ class FreestyleApp:
                                          colorDict['LIGHT_BLUE'], 
                                          self.delete_word, 
                                          colorDict['WHITE'],
-                                         "FreestyleApp/assets/img/nightblue-btn.png",
-                                         "FreestyleApp/assets/img/blue-btn.png",
-                                         "FreestyleApp/assets/img/lightblue-btn.png")
+                                         "./assets/img/nightblue-btn.png",
+                                         "./assets/img/blue-btn.png",
+                                         "./assets/img/lightblue-btn.png")
 
         # 
         # SHOW CONTROLS BUTTON
@@ -128,19 +126,19 @@ class FreestyleApp:
                                            colorDict['YELLOW'], 
                                            self.show_controls, 
                                            colorDict['BLACK'], 
-                                           "FreestyleApp/assets/img/orange-btn.png",
-                                           "FreestyleApp/assets/img/yellow-btn.png",
-                                           "FreestyleApp/assets/img/darkorange-btn.png",
+                                           "./assets/img/orange-btn.png",
+                                           "./assets/img/yellow-btn.png",
+                                           "./assets/img/darkorange-btn.png",
                                            font_size=18)
     
     def pygame_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("Freestyle Helper")
-        self.big_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Bold.ttf", 46)  
-        self.button_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 22)
+        self.big_font = pygame.font.Font("./assets/fonts/Antonio-Bold.ttf", 46)  
+        self.button_font = pygame.font.Font("./assets/fonts/Antonio-Regular.ttf", 22)
         self.text_font = pygame.font.Font(None, 24)
-        self.ctrls_txt_font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 24)
+        self.ctrls_txt_font = pygame.font.Font("./assets/fonts/Antonio-Regular.ttf", 24)
 
 
     ####### CLASS METHODS #####
@@ -164,13 +162,13 @@ class FreestyleApp:
 
 
     ## JSON METHODS ############################################################
-    def load_data_from_json(self, file_path='FreestyleApp/json/worte_und_reime.json'):
-            with open(file_path, 'r', encoding='utf-8') as file:
+    def load_data_from_json(self, file_path='./json/worte_und_reime.json'):
+            with open(file_path, 'r',encoding='utf8') as file:
                 data = json.load(file)
             self.words = {item['id']: item['word'] for item in data['words']}
             self.rhymes = data['rhymes']
         
-    def save_data_to_json(self, file_path='FreestyleApp/json/worte_und_reime.json'):
+    def save_data_to_json(self, file_path='./json/worte_und_reime.json'):
         data = {
             "words": [{"id": word_id, "word": word} for word_id, word in self.words.items()],
             "rhymes": self.rhymes

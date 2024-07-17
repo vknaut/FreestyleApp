@@ -20,5 +20,5 @@ class Label:
 
 
 if __name__ == '__main__':
-    print("This is file should not be directly executed. Please use 'FreestyleApp/main.py' instead.")
+    print("This is file should not be directly executed. Please use '../main.py' instead.")
     input("Press ENTER to exit.")

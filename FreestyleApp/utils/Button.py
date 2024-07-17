@@ -24,7 +24,7 @@ class Button:
         self.hover_color = hover_color
         self.onclick_color = onclick_color  
         self.callback = callback
-        self.font = pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", font_size) if font_size else pygame.font.Font("FreestyleApp/assets/fonts/Antonio-Regular.ttf", 22)
+        self.font = pygame.font.Font("./assets/fonts/Antonio-Regular.ttf", font_size) if font_size else pygame.font.Font("./assets/fonts/Antonio-Regular.ttf", 22)
         self.text_color = text_color
         
         # Load images
@@ -77,5 +77,5 @@ class Button:
 
 
 if __name__ == '__main__':
-    print("This is file should not be directly executed. Please use 'FreestyleApp/main.py' instead.")
+    print("This is file should not be directly executed. Please use '../main.py' instead.")
     input("Press ENTER to exit.")
