@@ -1,4 +1,3 @@
-
 # Freestyle Helper App
 
 Welcome to the Freestyle Helper App's GitHub repository! This innovative application, designed using Python, leverages the Pygame library for rendering visuals and Tkinter for dialog-based user interaction. Its primary purpose is to aid freestyle artists in their practice sessions by providing random words to rhyme with, and enabling the addition, edition, and deletion of rhymes for each word.
