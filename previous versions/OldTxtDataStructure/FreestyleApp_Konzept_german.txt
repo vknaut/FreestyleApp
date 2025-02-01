@@ -1,0 +1,179 @@
+Ziel ist es eine Pygame-App zu entwickeln, die Zufallswörter für Freestyle-Übungen anzeigt, und Benutzern ermöglicht, Reime zu Wörtern hinzuzufügen, zu bearbeiten und zu löschen. Hierfür verwenden wir eine Kombination aus Pygame für die Anzeige und Tkinter für die Benutzereingabe und Interaktion. Dieses Konzept integriert beide Bibliotheken, um eine interaktive Anwendung zu erstellen, die sowohl visuell ansprechend als auch funktional ist.
+
+Grundlegende Anforderungen und Funktionen
+Anzeigemodi: Die App hat zwei Modi für die Wortanzeige: einen "timed" Modus, bei dem Wörter in einstellbaren Intervallen automatisch angezeigt werden, und einen "on demand" Modus, der Wörter auf Knopfdruck anzeigt.
+Interaktion: Benutzer können jederzeit im "timed" Modus pausieren/fortfahren und in jedem Modus Reime zu dem angezeigten Wort hinzufügen, bearbeiten oder löschen.
+Datenstruktur: Die App lädt Wörter aus einer Textdatei (./words/CollectedWords.txt) und speichert/verwaltet Reime in einem separaten Verzeichnis (/rhymes/), wobei jede Reimdatei nach dem zugehörigen Wort benannt ist.
+Technische Umsetzung
+Initialisierung und Dateiverwaltung
+Start: Beim Start lädt die App die Liste der Wörter und überprüft für jedes Wort, ob bereits eine zugehörige Reimdatei existiert. Die Reime werden in einem Dictionary gespeichert, wobei der Schlüssel das Wort und der Wert die Liste der Reime ist.
+Wort- und Reimanzeige
+Pygame-Fenster: Die Hauptanzeige für Wörter und Reime erfolgt in einem Pygame-Fenster. Wörter werden zentriert angezeigt, und Reime werden, falls vorhanden, in kleinerer Schrift darunter aufgelistet.
+Anzeigemodi: Der Benutzer kann zwischen dem "timed" und dem "on demand" Modus wählen. Im "timed" Modus verwendet die App einen Timer (z.B. pygame.time.set_timer), um Wörter in vom Benutzer festgelegten Intervallen zu aktualisieren. Im "on demand" Modus wird das nächste Wort durch Drücken einer bestimmten Taste angezeigt.
+Interaktion mit Reimen (Tkinter)
+Benutzerinterface für Reime: Um Reime hinzuzufügen, zu bearbeiten oder zu löschen, öffnet die App ein Tkinter-Fenster, in dem der Benutzer die gewünschte Aktion auswählen kann. Dieses Fenster wird aktiviert, wenn der Benutzer eine bestimmte Taste drückt, während ein Wort angezeigt wird.
+Hinzufügen von Reimen: Im Tkinter-Fenster kann der Benutzer neue Reime über ein Textfeld eingeben und speichern. Die neue Reimliste wird dann in der entsprechenden Datei im /rhymes/-Verzeichnis gespeichert.
+Bearbeiten/Löschen von Reimen: Vorhandene Reime können aus einer Dropdown-Liste oder Liste ausgewählt werden. Für den ausgewählten Reim kann der Benutzer dann entweder eine Bearbeitung vornehmen oder den Reim löschen. Änderungen werden sofort gespeichert.
+Event-Handling und Funktionen
+Pausieren/Fortfahren: Im "timed" Modus kann der Benutzer die Anzeige von Wörtern pausieren und später fortsetzen, indem er eine bestimmte Taste drückt.
+Dateiaktualisierung: Jede Änderung an den Reimen (Hinzufügen, Bearbeiten, Löschen) führt zur Aktualisierung der entsprechenden Datei im /rhymes/-Verzeichnis, um Konsistenz zu gewährleisten.
+Für eine strukturierte und objektorientierte Implementierung der Pygame-App, die Tkinter für Interaktionen mit Benutzern verwendet, können wir eine Klasse entwerfen, die die Hauptfunktionalitäten kapselt. Diese Klasse wird Methoden zum Laden der Wörter und Reime, zur Anzeige im Pygame-Fenster, zur Verwaltung der Benutzerinteraktionen durch Tkinter und zum Aktualisieren der Reimdaten umfassen.
+
+Beispielcode mit Klassenstruktur
+```python
+import os
+import pygame
+import random  
+import tkinter as tk
+from tkinter import simpledialog, messagebox
+
+class FreestyleApp:
+    def __init__(self):
+        self.words = self.load_words()
+        self.rhymes = self.load_rhymes()
+        self.current_word_index = 0
+        self.pygame_init()
+        self.add_rhyme_button = pygame.Rect(50, 500, 200, 50)  # Position und Größe des Buttons
+    
+    def pygame_init(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((800, 600))
+        pygame.display.set_caption("Freestyle Helper")
+        self.font = pygame.font.Font(None, 36)  # Standard-Schriftart und Größe
+        self.button_font = pygame.font.Font(None, 24)
+
+    def next_word(self):
+    	self.current_word_index = random.randint(0, len(self.words) - 1)
+
+    def load_words(self):
+	try:
+            with open('./words/CollectedWords.txt', 'r') as file:
+                return [line.strip() for line in file.readlines()]
+	except FileNotFoundError:
+	    messagebox.showerror("Fehler", "Wortliste konnte nicht geladen werden.")
+            return []
+    
+    def load_rhymes(self):
+	try:
+            rhymes = {}
+            for word in self.words:
+                rhyme_file_path = f'./rhymes/{word}.txt'
+                if os.path.exists(rhyme_file_path):
+                    with open(rhyme_file_path, 'r') as file:
+                        rhymes[word] = [line.strip() for line in file.readlines()]
+            return rhymes
+	except FileNotFoundError:
+	    messagebox.showerror("Fehler", "Wortliste konnte nicht geladen werden.")
+            return {}
+
+    def display_word_and_rhymes(self):
+        self.screen.fill((255, 255, 255))  # White background
+        if self.words:
+            # Display current word at the center
+ 	    current_word = self.words[self.current_word_index]
+            word_surface = self.font.render(current_word, True, (0, 0, 0))
+            word_rect = word_surface.get_rect(center=(400, 300))
+            self.screen.blit(word_surface, word_rect)
+
+            # Implement displaying rhymes below the word if exist
+	    if current_word in self.rhymes:
+		for index, rhyme in enumerate(self.rhymes[current_word]):
+                    rhyme_surface = self.font.render(rhyme, True, (0, 0, 0))
+                    rhyme_rect = rhyme_surface.get_rect(center=(400, 340 + index * 30))
+                    self.screen.blit(rhyme_surface, rhyme_rect)
+        pygame.display.flip()
+	pygame.draw.rect(self.screen, (130, 180, 255), self.add_rhyme_button)  # Zeichne den Button
+        button_text = self.button_font.render('Add/Edit/Delete Rhyme', True, (255, 255, 255))
+        button_rect = button_text.get_rect(center=self.add_rhyme_button.center)
+        self.screen.blit(button_text, button_rect)
+    
+    def run(self):
+        timed_mode = False
+        paused = False
+        timer_event = pygame.USEREVENT + 1
+        timer_interval = 3000
+
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.KEYDOWN:
+		    # Keypress events
+                    if event.key == pygame.K_SPACE:
+		        if timed_mode:
+			    paused = not paused
+			    if paused:
+			        pygame.time.set_timer(timer_event, 0)
+			    else:
+			        pygame.time.set_timer(timer_event, timer_interval)    
+                    elif event.key == pygame.K_m:  # Verwende K_M für Moduswechsel
+                        timed_mode = not timed_mode
+			    if timed_mode:
+			        pygame.time.set_timer(timer_event, timer_interval)  # Timer starten für "timed" Modus
+        			paused = False  # Stellen Sie sicher, dass nicht pausiert ist, wenn in den "timed" Modus gewechselt wird
+    			    else:
+				pygame.time.set_timer(timer_event, 0)
+		# click events
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.add_rhyme_button.collidepoint(event.pos):
+                        self.add_edit_delete_rhyme()
+                elif event.type == timer_event:
+                    self.next_word()
+
+            self.display_word_and_rhymes()
+            pygame.time.wait(100)
+
+        pygame.quit()
+
+    def add_edit_delete_rhyme(self):
+    	action = simpledialog.askstring("Aktion", "Wählen: add, edit, delete")
+    	current_word = self.words[self.current_word_index]
+    	if action == "add":
+        	new_rhyme = simpledialog.askstring("Neuer Reim", "Geben Sie einen Reim ein:")
+        	if new_rhyme:
+            	if current_word in self.rhymes:
+                	self.rhymes[current_word].append(new_rhyme)
+            	else:
+                	self.rhymes[current_word] = [new_rhyme]
+            	with open(f'./rhymes/{current_word}.txt', 'a') as file:
+                	file.write(f'{new_rhyme}\n')
+    	elif action == "edit":
+        	if current_word in self.rhymes and self.rhymes[current_word]:
+            	rhyme_to_edit = simpledialog.askstring("Reim bearbeiten", "Wählen Sie den Reim zum Bearbeiten:")
+            	if rhyme_to_edit in self.rhymes[current_word]:
+               		new_rhyme = simpledialog.askstring("Neuer Reim", "Neuer Reim für \"" + rhyme_to_edit + "\":")
+                if new_rhyme:
+                	index = self.rhymes[current_word].index(rhyme_to_edit)
+                        self.rhymes[current_word][index] = new_rhyme
+                        self.update_rhyme_file(current_word)
+        	else:
+            		messagebox.showinfo("Information", "Keine Reime zum Bearbeiten vorhanden.")
+    	elif action == "delete":
+        	if current_word in self.rhymes and self.rhymes[current_word]:
+            		rhyme_to_delete = simpledialog.askstring("Reim löschen", "Wählen Sie den Reim zum Löschen:")
+            	if rhyme_to_delete in self.rhymes[current_word]:
+                	self.rhymes[current_word].remove(rhyme_to_delete)
+                	self.update_rhyme_file(current_word)
+        	else:
+            		messagebox.showinfo("Information", "Keine Reime zum Löschen vorhanden.")
+
+     def update_rhyme_file(self, word):
+	with open(f'./rhymes/{word}.txt', 'w') as file:
+        	for rhyme in self.rhymes[word]:
+            	file.write(f'{rhyme}\n')
+
+if __name__ == "__main__":
+    app = FreestyleApp()
+    app.run()
+```
+Wort- und Reimdaten: Die Methoden load_words und load_rhymes sind dafür verantwortlich, die Anfangsdaten aus den Dateien zu laden. Die Implementierung des Reimladens hängt davon ab, wie die Reime gespeichert sind (eine Datei pro Wort, ein gemeinsames Format, etc.).
+
+Anzeigelogik: Die Methode display_word_and_rhymes muss erweitert werden, um Wörter und ihre zugehörigen Reime im Pygame-Fenster anzuzeigen. Hier könnte man Font-Rendering und Textplatzierung innerhalb des Fensters implementieren.
+
+Interaktionsmechanismen: Die Methode add_edit_delete_rhyme sollte die Logik für die Benutzerinteraktion enthalten, um Reime hinzuzufügen, zu bearbeiten oder zu löschen. Tkinter wird hier für einfache Dialoge oder komplexere Benutzeroberflächen genutzt.
+
+Event-Handling: In der run-Methode müssen weitere Event-Handler implementiert werden, um Benutzereingaben wie Moduswechsel, Pausieren/Fortsetzen im "timed" Modus und das Hinzufügen/Bearbeiten/Löschen von Reimen zu verarbeiten.
+
+### DEINE AUFGABE:
+Implementiere alle funktionen schritt für schritt
